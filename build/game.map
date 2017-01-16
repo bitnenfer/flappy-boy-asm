@@ -1,0 +1,69 @@
+ROM Bank #0 (HOME):
+  SECTION: $0000-$01EE ($01EF bytes)
+           $0156 = main
+           $01D5 = load_hello_chars
+           $01E2 = load_hello_tiles
+           $0192 = update
+    SLACK: $3E11 bytes
+
+ROM Bank #1:
+  SECTION: $40A0-$40B2 ($0013 bytes)
+           $40A6 = lcd_on
+           $40A0 = lcd_off
+           $40AC = wait_vblank
+  SECTION: $40B3-$40C3 ($0011 bytes)
+           $40B3 = memcpy
+  SECTION: $4000-$409F ($00A0 bytes)
+           $4000 = spritesheet_tile_data
+  SECTION: $40C4-$40CF ($000C bytes)
+           $40C4 = HELLO_WORLD_TILES
+    SLACK: $3F30 bytes
+
+WRAM Bank #0:
+  SECTION: $C000-$C001 ($0002 bytes)
+           $C000 = player_vel_x
+           $C001 = player_vel_y
+    SLACK: $0FFE bytes
+
+WRAM Bank #1:
+  EMPTY
+
+WRAM Bank #2:
+  EMPTY
+
+WRAM Bank #3:
+  EMPTY
+
+WRAM Bank #4:
+  EMPTY
+
+WRAM Bank #5:
+  EMPTY
+
+WRAM Bank #6:
+  EMPTY
+
+WRAM Bank #7:
+  EMPTY
+
+VRAM Bank #0:
+  EMPTY
+
+VRAM Bank #1:
+  EMPTY
+
+HRAM:
+  EMPTY
+
+SRAM Bank #0:
+  EMPTY
+
+SRAM Bank #1:
+  EMPTY
+
+SRAM Bank #2:
+  EMPTY
+
+SRAM Bank #3:
+  EMPTY
+
