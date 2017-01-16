@@ -1,28 +1,29 @@
 ROM Bank #0 (HOME):
-  SECTION: $0000-$01EE ($01EF bytes)
+  SECTION: $0000-$0166 ($0167 bytes)
            $0156 = main
-           $01D5 = load_hello_chars
-           $01E2 = load_hello_tiles
-           $0192 = update
-    SLACK: $3E11 bytes
+    SLACK: $3E99 bytes
 
 ROM Bank #1:
-  SECTION: $40A0-$40B2 ($0013 bytes)
-           $40A6 = lcd_on
-           $40A0 = lcd_off
-           $40AC = wait_vblank
-  SECTION: $40B3-$40C3 ($0011 bytes)
-           $40B3 = memcpy
-  SECTION: $4000-$409F ($00A0 bytes)
-           $4000 = spritesheet_tile_data
-  SECTION: $40C4-$40CF ($000C bytes)
-           $40C4 = HELLO_WORLD_TILES
-    SLACK: $3F30 bytes
+  SECTION: $5006-$5018 ($0013 bytes)
+           $500C = lcd_on
+           $5006 = lcd_off
+           $5012 = wait_vblank
+  SECTION: $5019-$5029 ($0011 bytes)
+           $5019 = memcpy
+  SECTION: $4000-$4E05 ($0E06 bytes)
+           $4CE7 = update_menu.loop_0
+           $4168 = menu_tile_data
+           $4D2D = load_menu_data.load_menu_tiles
+           $4000 = menu_map_data
+           $4CD8 = update_menu
+           $4CFC = load_menu_data
+  SECTION: $4E06-$5005 ($0200 bytes)
+           $4E06 = SINE_TABLE
+    SLACK: $2FD6 bytes
 
 WRAM Bank #0:
   SECTION: $C000-$C001 ($0002 bytes)
-           $C000 = player_vel_x
-           $C001 = player_vel_y
+           $C000 = ADDR
     SLACK: $0FFE bytes
 
 WRAM Bank #1:

@@ -1,124 +1,21 @@
 SECTION "rom", HOME
 
-INCLUDE "assets/tile_data.inc"
 INCLUDE "gb/registers.inc"
 INCLUDE "gb/interrupts.inc"
+INCLUDE "gb/constants.inc"
 
 jp main
 
 INCLUDE "gb/header.inc"
 
-DISP_W EQU 160
-DISP_H EQU 144 + 8
-
 main:
     call lcd_off
-
-    call load_hello_chars
-    call load_hello_tiles
-
-
-    ; Enable sprite 
-    ld HL, LCD_CTRL
-    set 1, [HL]
-    ; Set Palette
-    ld HL, OBJ0_PAL
-    ld [HL], $E4
-    ; Set Y position
-    ld HL, $FE00
-    ld [HL], 0
-    ; Set X position
-    ld HL, $FE01
-    ld [HL], 8
-    ; Set Tile ID
-    ld HL, $FE02
-    ld [HL], $88
-    ; Render on top of BG
-    ld HL, $FE03
-    set 7, [HL]
-    ; Set velocity
-    ld HL, player_vel_x
-    ld [HL], $01
-    ld HL, player_vel_y
-    ld [HL], $01
-
+    call load_menu_data
     call lcd_on
 
 .loop:
     call wait_vblank
-    call update
+    call update_menu
     jr .loop
 
-update:
-    ; X pos
-    ld HL, $FE01
-    ld A, [HL]
-    ld HL, player_vel_x
-    ld B, [HL]
-    add A, B
-    cp DISP_W
-    jr nz, .check_min_x
-    ld HL, player_vel_x
-    ld [HL], $FF
-.check_min_x:
-    cp $08
-    jr nz, .update_x
-    ld HL, player_vel_x
-    ld [HL], $01
-.update_x:
-    ld HL, $FE01
-    ld [HL], A
-
-    ; Y pos
-    ld HL, $FE00
-    ld A, [HL]
-    ld HL, player_vel_y
-    ld B, [HL]
-    add A, B
-    cp DISP_H
-    jr nz, .check_min_y
-    ld HL, player_vel_y
-    ld [HL], $FF
-.check_min_y:
-    cp 16
-    jr nz, .update_y
-    ld HL, player_vel_y
-    ld [HL], $01
-.update_y:
-    ld HL, $FE00
-    ld [HL], A
-
-    ld HL, LCD_SCROLL_X
-    inc [HL]
-    ret
-
-load_hello_chars:
-    ; block size
-    ld DE, spritesheet_tile_data_size
-    ; src address
-    ld BC, spritesheet_tile_data
-    ; dst address
-    ld HL, $8800
-    call memcpy
-    ret
-
-load_hello_tiles:
-    ; block size
-    ld DE, $000D
-    ; src address
-    ld BC, HELLO_WORLD_TILES
-    ; dst address
-    ld HL, $9904
-    call memcpy
-    ret
-
-SECTION "player_data", BSS
-player_vel_x: DS 1
-player_vel_y: DS 1
-    
-SECTION "tile_data", DATA
-
-; Hello World Tiles
-HELLO_WORLD_TILES:
-    DB $80, $81, $82, $82, $83, $00, $84, $83, $85, $82, $86, $87
 

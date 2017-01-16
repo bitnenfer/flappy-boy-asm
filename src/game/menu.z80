@@ -1,0 +1,147 @@
+SECTION "menu", CODE
+
+INCLUDE "assets/menu_map.inc"
+INCLUDE "gb/constants.inc"
+INCLUDE "gb/registers.inc"
+
+update_menu::
+.loop:
+    ld A, [$FF44]
+    cp $00
+    jr nz, .loop
+    ld B, $00
+    ld HL, ADDR
+    ld D, [HL]
+    inc HL
+    ld E, [HL]
+    inc [HL]
+    ;ld DE, SINE_TABLE
+.loop_0:
+    ld A, [$FF44]
+    cp B
+    jr nz, .loop_0
+    inc B
+    inc DE
+    ld A, [DE]
+    ld HL, $FF43
+    ld [HL], A
+    ld A, B
+    cp $90
+    jr z, .end_0
+    jp .loop_0
+
+.end_0:
+    ret
+
+load_menu_data::
+    ld HL, ADDR
+    ld BC, SINE_TABLE
+    ld [HL], B
+    inc HL
+    ld [HL], C
+
+    ld HL, $FF40
+    ; disable CHR, since we don't need it for 
+    ; menu
+    set 3, [HL]
+    ; enable BG
+    res 4, [HL]
+    ; set BG palette
+    ld HL, LCD_BG_PAL
+    ld [HL], $E4
+    ; load top tile map to vram (background)
+    ld DE, ((16 * 16) * 8)
+    ld BC, menu_tile_data
+    ld HL, VRAM_TILES_BACKGROUND
+    call memcpy
+    ; load bottom tile map to vram (mixed)
+    ld DE, (menu_tile_data_size - VRAM_MAP_BLOCK0_SIZE)
+    ld BC, (menu_tile_data + VRAM_MAP_BLOCK0_SIZE) 
+    ld HL, VRAM_TILES_MIX
+    call memcpy
+    ; Load tile data
+    call .load_menu_tiles
+    ret
+
+.load_menu_tiles:
+    ; We just load every line by hand.
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $0)
+    ld HL, $9C00
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $1)
+    ld HL, $9C20
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $2)
+    ld HL, $9C40
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $3)
+    ld HL, $9C60
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $4)
+    ld HL, $9C80
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $5)
+    ld HL, $9CA0
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $6)
+    ld HL, $9CC0
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $7)
+    ld HL, $9CE0
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $8)
+    ld HL, $9D00
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $9)
+    ld HL, $9D20
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $A)
+    ld HL, $9D40
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $B)
+    ld HL, $9D60
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $C)
+    ld HL, $9D80
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $D)
+    ld HL, $9DA0
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $E)
+    ld HL, $9DC0
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $F)
+    ld HL, $9DE0
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $10)
+    ld HL, $9E00
+    call memcpy
+    ld DE, $14
+    ld BC, menu_map_data + ($14 * $11)
+    ld HL, $9E20
+    call memcpy
+    ret
+
+SECTION "menu_var", BSS
+ADDR: DS 2
+
+SECTION "menu_data", DATA
+SINE_TABLE:
+DB 0,0,1,2,3,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,4,3,2,1,1,0,0,1,2,2,3,4,4,5,6,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,3,2,2,1,0,0,0,1,2,3,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,4,3,2,1,0,0,0,1,2,2,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,7,6,6,5,4,4,3,2,2,1,0,0,1,1,2,3,4,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,3,3,2,1,0,0,0,1,2,3,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,6,5,4,4,3,2,1,1,0,0,1,1,2,3,4,4,5,6,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,3,3,2,1,0,0,0,1,2,3,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,4,3,2,1,1,0,0,1,2,2,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7,7,7,6,6,5,4,4,3,2,2,1,0,0,1,1,2,3,4,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,3,3,2,1,0,0,0,1,2,2,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,6,5,4,4,3,2,2,1,0,0,1,1,2,3,4,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,3,3,2,1,0,0,0,1,2,3,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,4,3,2,1,1,0,0,1,2,2,3,4,4,5,6,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,3,2,2,1,0,0,0,1,2,3,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,6,6,5,5,4,4,3,2,1,0,0,0,1,2,2,3,4,5,5,6,6,7,7,7,7,7,7,7,7,7,7,7,6,6,5,4,4,3,2,2,1,0,0,1,1,2,3,4,4,5,5
