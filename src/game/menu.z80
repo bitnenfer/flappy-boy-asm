@@ -84,15 +84,15 @@ update_menu::
     jr .end_fade
 .fade_1:
     ld HL, LCD_BG_PAL
-    ld [HL], %11100101
+    ld [HL], %11111001
     jr .end_fade
 .fade_2:
     ld HL, LCD_BG_PAL
-    ld [HL], %11101001
+    ld [HL], %11111001
     jr .end_fade
 .fade_3:
     ld HL, LCD_BG_PAL
-    ld [HL], %11111001
+    ld [HL], %11111110
     jr .end_fade
 .fade_4:
     ld HL, LCD_BG_PAL
