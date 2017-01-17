@@ -1,0 +1,30 @@
+SECTION "joypad", CODE
+
+INCLUDE "gb/constants.inc"
+
+read_joypad::
+    ; Read P14
+    ld HL, USER_IO
+    ld A, $20
+    ld [HL], A
+    ld A, [HL]
+    ld HL, IO_P14
+    ld [HL], A
+
+    ; Read P15
+    ld HL, USER_IO
+    ld A, $10
+    ld [HL], A
+    ld A, [HL]
+    ld HL, IO_P15
+    ld [HL], A
+    
+    ; Reset
+    ld HL, USER_IO
+    ld A, $FF
+    ld [HL], A
+    ret
+
+SECTION "joypad_vars", BSS
+IO_P14:: DS 1
+IO_P15:: DS 1

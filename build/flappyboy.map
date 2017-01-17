@@ -1,0 +1,99 @@
+ROM Bank #0 (HOME):
+  SECTION: $0000-$01B2 ($01B3 bytes)
+           $0156 = main
+           $0159 = start_menu
+           $0186 = start_game
+    SLACK: $3E4D bytes
+
+ROM Bank #1:
+  SECTION: $68B5-$68D1 ($001D bytes)
+           $68B5 = read_joypad
+  SECTION: $6891-$68B4 ($0024 bytes)
+           $68A4 = clear_bg_map
+           $6897 = lcd_on
+           $6891 = lcd_off
+           $689D = wait_vblank
+  SECTION: $68D2-$68E2 ($0011 bytes)
+           $68D2 = memcpy
+  SECTION: $4000-$57F6 ($17F7 bytes)
+           $554E = fade_in
+           $54E9 = fade_out
+           $55B0 = parallax
+           $55D1 = animate_parallax
+           $4168 = background_tile_data
+           $5645 = load_game_data.load_menu_tiles_0
+           $571E = load_game_data.load_menu_tiles_1
+           $4000 = background_map_data
+           $55FC = load_game_data
+           $54C0 = update_game
+  SECTION: $57F7-$6690 ($0E9A bytes)
+           $64CF = update_menu.update_menu_internal
+           $6509 = update_menu.loop_0
+           $595F = menu_tile_data
+           $65B8 = load_menu_data.load_menu_tiles
+           $57F7 = menu_map_data
+           $64CF = update_menu
+           $6582 = load_menu_data
+  SECTION: $6691-$6890 ($0200 bytes)
+           $6691 = SINE_TABLE_0
+    SLACK: $171D bytes
+
+WRAM Bank #0:
+  SECTION: $C000-$C001 ($0002 bytes)
+           $C000 = IO_P14
+           $C001 = IO_P15
+  SECTION: $C002-$C007 ($0006 bytes)
+           $C006 = FADE_IN_ACTIVE
+           $C007 = FADE_STEP
+           $C005 = PARALLAX_DELAY_TIMER
+           $C002 = CLOUDS_X
+           $C003 = BUILDINGS_X
+           $C004 = FLOOR_X
+  SECTION: $C008-$C00B ($0004 bytes)
+           $C00B = START_FADE
+           $C008 = ADDR
+           $C00A = FADE_STEP
+    SLACK: $0FF4 bytes
+
+WRAM Bank #1:
+  EMPTY
+
+WRAM Bank #2:
+  EMPTY
+
+WRAM Bank #3:
+  EMPTY
+
+WRAM Bank #4:
+  EMPTY
+
+WRAM Bank #5:
+  EMPTY
+
+WRAM Bank #6:
+  EMPTY
+
+WRAM Bank #7:
+  EMPTY
+
+VRAM Bank #0:
+  EMPTY
+
+VRAM Bank #1:
+  EMPTY
+
+HRAM:
+  EMPTY
+
+SRAM Bank #0:
+  EMPTY
+
+SRAM Bank #1:
+  EMPTY
+
+SRAM Bank #2:
+  EMPTY
+
+SRAM Bank #3:
+  EMPTY
+

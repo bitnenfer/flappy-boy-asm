@@ -1,21 +1,38 @@
 SECTION "rom", HOME
 
-INCLUDE "gb/registers.inc"
 INCLUDE "gb/interrupts.inc"
 INCLUDE "gb/constants.inc"
+INCLUDE "gb/macros.inc"
 
 jp main
 
 INCLUDE "gb/header.inc"
 
-main:
+main::
+    jp start_menu
+
+start_menu::
+    _RESET_
+    call wait_vblank
     call lcd_off
     call load_menu_data
     call lcd_on
 
-.loop:
+.main_loop_menu:
     call wait_vblank
     call update_menu
-    jr .loop
+    jr .main_loop_menu
+
+start_game::
+    _RESET_
+    call wait_vblank
+    call lcd_off
+    call load_game_data
+    call lcd_on
+
+.main_loop_game:
+    call wait_vblank
+    call update_game
+    jr .main_loop_game
 
 
