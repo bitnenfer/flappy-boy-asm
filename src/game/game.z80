@@ -5,6 +5,7 @@ FLOOR_X: DS 1
 PARALLAX_DELAY_TIMER: DS 1
 FADE_IN_ACTIVE: DS 1
 FADE_STEP: DS 1
+ALLOW_PARALLAX:: DS 1
 
 SECTION "game", CODE
 
@@ -18,6 +19,7 @@ FADE_FACT EQU 2
 FADE_FACE_OFFSET EQU 0
 
 update_game::
+    call player_update
     ld HL, FADE_IN_ACTIVE
     ld A, [HL]
     cp $00
@@ -25,24 +27,30 @@ update_game::
     cp $02
     jr z, .call_fade_out
     jr .call_parallax
-
 .call_fade_in:
     call fade_in
     jr .call_parallax
-
 .call_fade_out:
     call fade_out
-
 .call_parallax:
+    ld HL, ALLOW_PARALLAX
+    ld A, [HL]
+    cp $00
+    jr z, .do_parallax
+.no_parallax:
+    call apply_parallax
+    jr .continue_update_0
+.do_parallax:
+    ;xor A
     call parallax
-
+    ; for testing only
+.continue_update_0:
     call read_joypad
     ld HL, IO_P15
     bit BUTTON_START, [HL]
     jr nz, .end_update
     ld HL, FADE_IN_ACTIVE
     ld [HL], $02
-
 .end_update:
     ret
 
@@ -64,37 +72,46 @@ fade_out::
     cp FADE_FACE_OFFSET + (FADE_FACT * 6)
     jr z, .reset_fade
     jr .end_fade
-
 .fade_0:
     ld HL, LCD_BG_PAL
+    ld [HL], %11100100
+    ld HL, OBJ0_PAL
     ld [HL], %11100100
     jr .end_fade
 .fade_1:
     ld HL, LCD_BG_PAL
     ld [HL], %11111001
+    ld HL, OBJ0_PAL
+    ld [HL], %11111001
     jr .end_fade
 .fade_2:
     ld HL, LCD_BG_PAL
+    ld [HL], %11111001
+    ld HL, OBJ0_PAL
     ld [HL], %11111001
     jr .end_fade
 .fade_3:
     ld HL, LCD_BG_PAL
     ld [HL], %11111110
+    ld HL, OBJ0_PAL
+    ld [HL], %11111110
     jr .end_fade
 .fade_4:
     ld HL, LCD_BG_PAL
+    ld [HL], %11111110
+    ld HL, OBJ0_PAL
     ld [HL], %11111110
     jr .end_fade
 .fade_5:
     ld HL, LCD_BG_PAL
     ld [HL], %11111111
+    ld HL, OBJ0_PAL
+    ld [HL], %11111111
     jr .end_fade
-    
 .end_fade:
     ld HL, FADE_STEP
     inc [HL]
     jr .end_0
-
 .reset_fade:
     ld HL, FADE_STEP
     ld [HL], $00
@@ -102,8 +119,9 @@ fade_out::
     ld [HL], $01
     ld HL, LCD_BG_PAL
     ld [HL], %11100100
+    ld HL, OBJ0_PAL
+    ld [HL], %11100100
     jp start_menu
-
 .end_0:
     ret
 
@@ -125,37 +143,46 @@ fade_in::
     cp FADE_FACE_OFFSET + (FADE_FACT * 6)
     jr z, .reset_fade
     jr .end_fade
-
 .fade_0:
     ld HL, LCD_BG_PAL
+    ld [HL], %11111111
+    ld HL, OBJ0_PAL
     ld [HL], %11111111
     jr .end_fade
 .fade_1:
     ld HL, LCD_BG_PAL
     ld [HL], %11111110
+    ld HL, OBJ0_PAL
+    ld [HL], %11111110
     jr .end_fade
 .fade_2:
     ld HL, LCD_BG_PAL
+    ld [HL], %11111110
+    ld HL, OBJ0_PAL
     ld [HL], %11111110
     jr .end_fade
 .fade_3:
     ld HL, LCD_BG_PAL
     ld [HL], %11111001
+    ld HL, OBJ0_PAL
+    ld [HL], %11111001
     jr .end_fade
 .fade_4:
     ld HL, LCD_BG_PAL
+    ld [HL], %11111001
+    ld HL, OBJ0_PAL
     ld [HL], %11111001
     jr .end_fade
 .fade_5:
     ld HL, LCD_BG_PAL
     ld [HL], %11100100
+    ld HL, OBJ0_PAL
+    ld [HL], %11100100
     jr .end_fade
-    
 .end_fade:
     ld HL, FADE_STEP
     inc [HL]
     jr .end_0
-
 .reset_fade:
     ld HL, FADE_STEP
     ld [HL], $00
@@ -163,7 +190,8 @@ fade_in::
     ld [HL], $01
     ld HL, LCD_BG_PAL
     ld [HL], %11100100
-
+    ld HL, OBJ0_PAL
+    ld [HL], %11100100
 .end_0:
     ret
 
@@ -173,8 +201,7 @@ parallax::
     ; Check if timer is done
     ld A, [HL]
     cp PARALLAX_DELAY
-    jr nz, .apply_parallax
-
+    jr nz, apply_parallax
 .increment_parallax:
     ld HL, CLOUDS_X
     inc [HL]
@@ -187,17 +214,14 @@ parallax::
     inc [HL]
     ld HL, PARALLAX_DELAY_TIMER
     ld [HL], $00
-
-.apply_parallax:
+apply_parallax:
     call animate_parallax
     ret
-
 animate_parallax:
     ld HL, CLOUDS_X
     ld A, [HL]
     ld HL, LCD_SCROLL_X
     ld [HL], A
-
 .wait_for_ly_101:
     ld A, [$FF44]
     cp 101
@@ -207,7 +231,6 @@ animate_parallax:
     ld A, [HL]
     ld HL, LCD_SCROLL_X
     ld [HL], A
-
 .wait_for_ly_122:
     ld A, [$FF44]
     cp 122
@@ -217,7 +240,6 @@ animate_parallax:
     ld A, [HL]
     ld HL, LCD_SCROLL_X
     ld [HL], A
-
 .wait_for_ly_135:
     ld A, [$FF44]
     cp 135
@@ -226,6 +248,8 @@ animate_parallax:
     ret
 
 load_game_data::
+    ld HL, ALLOW_PARALLAX
+    ld [HL], $00
     ld HL, FADE_STEP
     ld [HL], $00
     ld HL, FADE_IN_ACTIVE
@@ -251,16 +275,17 @@ load_game_data::
     ld BC, background_tile_data ; $4168
     ld HL, VRAM_TILES_BACKGROUND
     call memcpy
-    ; load bottom tile map to vram (mixed)
-    ld DE, (VRAM_MAP_BLOCK0_SIZE - background_tile_data_size)
-    ld BC, (background_tile_data + VRAM_MAP_BLOCK0_SIZE) 
+    ; Load flappy sprites
+    ld DE, flappy_sprite_tile_data_size
+    ld BC, flappy_sprite_tile_data
     ld HL, VRAM_TILES_MIX
     call memcpy
+    call player_sprite_init
+
     ; Load tile data
     call .load_menu_tiles_0
     call .load_menu_tiles_1
     ret
-
 .load_menu_tiles_0:
     ; We just load every line by hand.
     ld DE, $14
@@ -336,7 +361,6 @@ load_game_data::
     ld HL, $9E20
     call memcpy
     ret
-
 .load_menu_tiles_1:
     ; We just load every line by hand.
     ld DE, $0E
@@ -412,3 +436,4 @@ load_game_data::
     ld HL, $9E33
     call memcpy
     ret
+

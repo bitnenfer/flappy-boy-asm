@@ -1,0 +1,175 @@
+SECTION "player", CODE
+
+INCLUDE "gb/constants.inc"
+
+PLAYER_START_X EQU (160 / 2)
+PLAYER_START_Y EQU (144 / 2)
+PLAYER_FLOOR_LIMIT EQU (136)
+PLAYER_GRAV EQU 2
+PLAYER_GRAV_DELAY EQU 8
+PLAYER_JUMP EQU 1
+
+player_sprite_init::
+    ; Set variables
+    ld HL, player_x
+    ld [HL], PLAYER_START_X
+    ld HL, player_y
+    ld [HL], PLAYER_START_Y
+    ld HL, player_vy
+    ld [HL], $00
+    ld HL, player_vyd
+    ld [HL], $00
+    ld HL, player_bounce
+    ld [HL], $FF
+    ; Enable sprite
+    ld HL, LCD_CTRL
+    set 1, [HL]
+    ; Set Palette
+    ld HL, OBJ0_PAL
+    ld [HL], %11100100
+    ; Set Attributes
+    ; Top left
+    ld HL, $FE00
+    ld [HL], PLAYER_START_Y
+    inc L
+    ld [HL], PLAYER_START_X
+    inc L
+    ld [HL], $80
+    ; Top right
+    ld HL, $FE04
+    ld [HL], PLAYER_START_Y
+    inc L
+    ld [HL], PLAYER_START_X + 8
+    inc L
+    ld [HL], $81
+    ; Bottom right
+    ld HL, $FE08
+    ld [HL], PLAYER_START_Y + 8
+    inc L
+    ld [HL], PLAYER_START_X + 8
+    inc L
+    ld [HL], $82
+    ; Bottom left
+    ld HL, $FE0C
+    ld [HL], PLAYER_START_Y + 8
+    inc L
+    ld [HL], PLAYER_START_X
+    inc L
+    ld [HL], $83
+    ret
+
+player_update::
+    call wait_vblank
+
+    ld HL, IO_P15
+    bit BUTTON_A, [HL]
+    jr nz, .no_input
+
+    ld HL, player_vy
+    ld A, [HL]
+    sbc A, PLAYER_JUMP
+    cp $00
+    ;jr nz, .continue_input_0
+    ld [HL], $FF
+    ld A, [HL]
+    jr .continue_input_1
+.continue_input_0:
+    ld [HL], A
+.continue_input_1:
+    ld HL, player_bounce
+    ld [HL], $FF
+
+.no_input:
+    
+    ld HL, player_vyd
+    ld A, [HL]
+    inc [HL]
+    cp PLAYER_GRAV_DELAY
+    jr nz, .apply_gravity_0
+    xor A
+
+    ; Apply gravity
+    ld [HL], $00
+    ld HL, player_vy
+    ld A, [HL]
+    cp $00
+    jr z, .continue_update_0
+    add A, PLAYER_GRAV
+    ld [HL], A
+
+.apply_gravity_0:
+    ld HL, player_vy
+    ld A, [HL]
+    ld B, A
+    ld HL, player_y
+    ld A, [HL]
+    add A, B
+    ld [HL], A           
+
+.check_floor_collision:
+    ; Check if we hit floor
+    cp PLAYER_FLOOR_LIMIT
+    jr c, .continue_update_0
+    
+    ld HL, player_bounce
+    ld A, [HL]
+    cp $00
+    jr z, .no_velocity
+    ld HL, player_vy
+    ld [HL], A
+    ld HL, player_bounce
+    inc [HL]
+    jr .disable_parallax
+.no_velocity:
+    ld HL, player_vy
+    ld [HL], $00
+.disable_parallax:
+    xor A
+    ld HL, ALLOW_PARALLAX
+    ld [HL], $01
+    ld HL, player_y
+    ld [HL], PLAYER_FLOOR_LIMIT
+
+.continue_update_0:
+    xor A
+    ld HL, player_y
+    ld B, [HL]
+    ld HL, player_x
+    ld C, [HL]
+
+    ; Top left
+    ld HL, $FE00
+    ld [HL], B
+    inc L
+    ld [HL], C
+    ; Top right
+    ld HL, $FE04
+    ld E, C
+    ld A, C
+    adc A, 8
+    ld C, A
+    ld [HL], B
+    inc L
+    ld [HL], C
+    ; Bottom left
+    ld HL, $FE0C
+    ld A, B
+    adc A, 8
+    ld B, A
+    ld [HL], B
+    inc L
+    ld [HL], E
+    ; Bottom right
+    ld HL, $FE08
+    ld [HL], B
+    inc L
+    ld [HL], C
+    
+    ret
+
+SECTION "player_vars", BSS
+player_x:: DS 1
+player_y:: DS 1
+player_vy:: DS 1
+player_vyd:: DS 1
+player_bounce:: DS 1
