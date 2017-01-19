@@ -14,7 +14,7 @@ update_menu::
     jr z, .loop
     call read_joypad
     ld HL, IO_P15
-    bit BUTTON_START, [HL]
+    bit BUTTON_A, [HL]
     jr z, .start_fade_anim
     jp .update_menu_internal
 

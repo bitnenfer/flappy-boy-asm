@@ -3,9 +3,11 @@ CLOUDS_X: DS 1
 BUILDINGS_X: DS 1
 FLOOR_X: DS 1
 PARALLAX_DELAY_TIMER: DS 1
-FADE_IN_ACTIVE: DS 1
+FADE_IN_ACTIVE:: DS 1
 FADE_STEP: DS 1
 ALLOW_PARALLAX:: DS 1
+READ_INPUT:: DS 1
+START_PLAY:: DS 1
 
 SECTION "game", CODE
 
@@ -16,10 +18,17 @@ INCLUDE "gb/constants.inc"
 
 PARALLAX_DELAY EQU $02
 FADE_FACT EQU 2
-FADE_FACE_OFFSET EQU 0
+FADE_FACE_OFFSET EQU $10
 
 update_game::
+    ld HL, READ_INPUT
+    ld A, [HL]
+    cp $00
+    jr nz, .continue_update_1
+    call read_joypad
+.continue_update_1:
     call player_update
+    call player_set_position
     ld HL, FADE_IN_ACTIVE
     ld A, [HL]
     cp $00
@@ -45,12 +54,11 @@ update_game::
     call parallax
     ; for testing only
 .continue_update_0:
-    call read_joypad
-    ld HL, IO_P15
-    bit BUTTON_START, [HL]
-    jr nz, .end_update
-    ld HL, FADE_IN_ACTIVE
-    ld [HL], $02
+    ;ld HL, IO_P15
+    ;bit BUTTON_START, [HL]
+    ;jr nz, .end_update
+    ;ld HL, FADE_IN_ACTIVE
+    ;ld [HL], $02
 .end_update:
     ret
 
@@ -128,19 +136,19 @@ fade_out::
 fade_in::
     ld HL, FADE_STEP
     ld A, [HL]
-    cp FADE_FACE_OFFSET + (FADE_FACT * 0)
+    cp (FADE_FACT * 0)
     jr z, .fade_0
-    cp FADE_FACE_OFFSET + (FADE_FACT * 1)
+    cp (FADE_FACT * 1)
     jr z, .fade_1
-    cp FADE_FACE_OFFSET + (FADE_FACT * 2)
+    cp (FADE_FACT * 2)
     jr z, .fade_2
-    cp FADE_FACE_OFFSET + (FADE_FACT * 3)
+    cp (FADE_FACT * 3)
     jr z, .fade_3
-    cp FADE_FACE_OFFSET + (FADE_FACT * 4)
+    cp (FADE_FACT * 4)
     jr z, .fade_4
-    cp FADE_FACE_OFFSET + (FADE_FACT * 5)
+    cp (FADE_FACT * 5)
     jr z, .fade_5
-    cp FADE_FACE_OFFSET + (FADE_FACT * 6)
+    cp (FADE_FACT * 6)
     jr z, .reset_fade
     jr .end_fade
 .fade_0:
@@ -248,6 +256,10 @@ animate_parallax:
     ret
 
 load_game_data::
+    ld HL, START_PLAY
+    ld [HL], $00
+    ld HL, READ_INPUT
+    ld [HL], $00
     ld HL, ALLOW_PARALLAX
     ld [HL], $00
     ld HL, FADE_STEP

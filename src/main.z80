@@ -9,15 +9,17 @@ jp main
 INCLUDE "gb/header.inc"
 
 main::
-    jp start_menu
+    
+    jp start_game
 
 start_menu::
     _RESET_
+    call clear_joypad
     call wait_vblank
     call lcd_off
     call load_menu_data
     call lcd_on
-
+   
 .main_loop_menu:
     call wait_vblank
     call update_menu
@@ -25,6 +27,7 @@ start_menu::
 
 start_game::
     _RESET_
+    call clear_joypad
     call wait_vblank
     call lcd_off
     call load_game_data

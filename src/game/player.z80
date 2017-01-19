@@ -3,24 +3,27 @@ SECTION "player", CODE
 INCLUDE "gb/constants.inc"
 
 PLAYER_START_X EQU (160 / 2)
-PLAYER_START_Y EQU (144 / 2)
+PLAYER_START_Y EQU (144 / 2 + 16)
 PLAYER_FLOOR_LIMIT EQU (136)
-PLAYER_GRAV EQU 2
-PLAYER_GRAV_DELAY EQU 8
-PLAYER_JUMP EQU 1
+PLAYER_ACCEL_Y EQU 1
+PLAYER_JUMP EQU $00
+PLAYER_MAX_VEL EQU $04
+PLAYER_DELAY EQU $02
 
 player_sprite_init::
     ; Set variables
+    ld HL, player_accel_delay
+    ld [HL], PLAYER_DELAY
+    ld HL, player_active
+    ld [HL], $00
     ld HL, player_x
     ld [HL], PLAYER_START_X
     ld HL, player_y
     ld [HL], PLAYER_START_Y
-    ld HL, player_vy
-    ld [HL], $00
-    ld HL, player_vyd
+    ld HL, player_vel_y
     ld [HL], $00
     ld HL, player_bounce
-    ld [HL], $FF
+    ld [HL], $FE
     ; Enable sprite
     ld HL, LCD_CTRL
     set 1, [HL]
@@ -59,84 +62,101 @@ player_sprite_init::
     ret
 
 player_update::
-    call wait_vblank
-
+    
+    ; Check if Button A 
+    ; was pressed
     ld HL, IO_P15
     bit BUTTON_A, [HL]
-    jr nz, .no_input
-
-    ld HL, player_vy
-    ld A, [HL]
-    sbc A, PLAYER_JUMP
-    cp $00
-    ;jr nz, .continue_input_0
-    ld [HL], $FF
-    ld A, [HL]
-    jr .continue_input_1
-.continue_input_0:
-    ld [HL], A
-.continue_input_1:
-    ld HL, player_bounce
-    ld [HL], $FF
-
-.no_input:
+    jr nz, .player_update_no_input
+    ld HL, IO_P15_OLD
+    bit BUTTON_A, [HL]
+    jr z, .player_update_no_input
     
-    ld HL, player_vyd
-    ld A, [HL]
-    inc [HL]
-    cp PLAYER_GRAV_DELAY
-    jr nz, .apply_gravity_0
-    xor A
+    ; Set the player to active
+    ld HL, player_active
+    ld [HL], $01
 
-    ; Apply gravity
-    ld [HL], $00
-    ld HL, player_vy
+    ; if button A was pressed
+    ; we apply jump
+.player_update_jump:
+    ld HL, player_vel_y
     ld A, [HL]
-    cp $00
-    jr z, .continue_update_0
-    add A, PLAYER_GRAV
+    ld A, -(PLAYER_MAX_VEL * 2)
     ld [HL], A
 
-.apply_gravity_0:
-    ld HL, player_vy
+.player_update_no_input:
+    ld HL, player_active
     ld A, [HL]
-    ld B, A
+    cp $00
+    jr z, player_update_end
+
+.player_update_apply_accel_y:
+    ld HL, player_accel_delay
+    dec [HL]
+    ld A, [HL]
+    cp $00
+    jr nz, .player_update_apply_vel_y
+    ld [HL], PLAYER_DELAY
+
+    ld HL, player_vel_y    
+    ; Apply acceleration y of 1
+    inc [HL]
+    ; Check if we exceed the max velocity
+    ld A, [HL]
+    ; if it's greater than PLAYER_MAX_VEL 
+    ; we cap it
+    cp PLAYER_MAX_VEL + 6
+    jp nz, .player_update_apply_vel_y
+    ld [HL], PLAYER_MAX_VEL + 5
+
+.player_update_apply_vel_y:
+    ld B, [HL]
     ld HL, player_y
     ld A, [HL]
-    add A, B
-    ld [HL], A           
-
-.check_floor_collision:
-    ; Check if we hit floor
-    cp PLAYER_FLOOR_LIMIT
-    jr c, .continue_update_0
-    
-    ld HL, player_bounce
-    ld A, [HL]
-    cp $00
-    jr z, .no_velocity
-    ld HL, player_vy
+    adc A, B
     ld [HL], A
-    ld HL, player_bounce
-    inc [HL]
-    jr .disable_parallax
-.no_velocity:
-    ld HL, player_vy
-    ld [HL], $00
-.disable_parallax:
-    xor A
+
+.player_update_check_floor_collision:
+    cp PLAYER_FLOOR_LIMIT
+    jr c, .player_update_check_ceil_collision
+    ld [HL], PLAYER_FLOOR_LIMIT
+    ld HL, FADE_IN_ACTIVE
+    ld A, [HL]
+    cp $02
+    jr z, .player_update_stop_game
+    ld HL, player_vel_y
+    ld [HL], $FA
+    jr .player_update_stop_game
+
+.player_update_check_ceil_collision:
+    cp $08
+    jr nc, .player_update_no_collision
+    ld [HL], $08
+    jr .player_update_stop_game
+
+.player_update_stop_game:
+    ; if we hit floor we finish the game
+    ; stop parallax and fade out to menu
     ld HL, ALLOW_PARALLAX
     ld [HL], $01
-    ld HL, player_y
-    ld [HL], PLAYER_FLOOR_LIMIT
+    ld HL, FADE_IN_ACTIVE
+    ld [HL], $02
+    ld HL, READ_INPUT
+    ld [HL], $01
+    jr player_update_end
 
-.continue_update_0:
+.player_update_no_collision:
+    xor A
+
+player_update_end:
+    ret
+
+player_set_position::
     xor A
     ld HL, player_y
     ld B, [HL]
     ld HL, player_x
     ld C, [HL]
-
     ; Top left
     ld HL, $FE00
     ld [HL], B
@@ -170,6 +190,8 @@ player_update::
 SECTION "player_vars", BSS
 player_x:: DS 1
 player_y:: DS 1
-player_vy:: DS 1
-player_vyd:: DS 1
+player_vel_y:: DS 1
 player_bounce:: DS 1
+player_active:: DS 1
+player_accel_delay:: DS 1
+
