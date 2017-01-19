@@ -10,9 +10,10 @@ INCLUDE "gb/header.inc"
 
 main::
     
-    jp start_game
+    jp start_menu
 
 start_menu::
+    ld B, $06 ; clear tile id
     _RESET_
     call clear_joypad
     call wait_vblank
@@ -26,6 +27,7 @@ start_menu::
     jr .main_loop_menu
 
 start_game::
+    ld B, $00 ; clear tile id
     _RESET_
     call clear_joypad
     call wait_vblank

@@ -22,7 +22,7 @@ clear_bg_map::
     ld HL, $9C00
 
 .clear_loop:
-    ld [HL], $00
+    ld [HL], B
     inc HL
     ld A, H
     cp $9F

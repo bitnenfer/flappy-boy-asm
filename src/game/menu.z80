@@ -5,18 +5,63 @@ INCLUDE "gb/constants.inc"
 
 FADE_FACT EQU 2
 FADE_FACE_OFFSET EQU 85
+FLICKER_DELAY EQU $20
+PAL_VISIBLE EQU %11100100
+PAL_NOT_VISIBLE EQU %00000000
 
 update_menu::
 .update_menu_internal:
     ld HL, START_FADE
     ld A, [HL]
     cp $01
-    jr z, .loop
+    jp z, .loop
     call read_joypad
     ld HL, IO_P15
     bit BUTTON_A, [HL]
     jr z, .start_fade_anim
+    ld HL, FLICKER_TIMER
+    ld A, [HL]
+    dec [HL]
+    cp $00
+    jr nz, .flicker_instr_0
+    ld HL, FLICKER_PAL
+    ld A, [HL]
+    cp PAL_VISIBLE
+    jr z, .flicker_instr_not_vis
+
+.flicker_instr_vis:
+    ld HL, FLICKER_TIMER
+    ld [HL], FLICKER_DELAY
+    ld HL, FLICKER_PAL
+    ld [HL], PAL_VISIBLE
+    jr .flicker_instr_0
+
+.flicker_instr_not_vis:
+    ld HL, FLICKER_TIMER
+    ld [HL], FLICKER_DELAY
+    ld HL, FLICKER_PAL
+    ld [HL], PAL_NOT_VISIBLE
+
+.flicker_instr_0:
+
+    ld A, [LCD_LINE_Y]
+    cp 115
+    jr nz, .flicker_instr_0
+    ld HL, FLICKER_PAL
+    ld A, [HL]
+    ld HL, LCD_BG_PAL
+    ld [HL], A
+
+.flicker_instr_1:
+    ld A, [LCD_LINE_Y]
+    cp 129
+    jr nz, .flicker_instr_1
+    ld HL, LCD_BG_PAL
+    ld [HL], %11100100
+
     jp .update_menu_internal
+
+    ;11100100
 
 .start_fade_anim:
     ld HL, START_FADE
@@ -44,7 +89,7 @@ update_menu::
     ld A, [LCD_LINE_Y]
     cp $90
     jr nz, .loop_1
-    jr .update_menu_internal
+    jp .update_menu_internal
 
 .loop_0:
     ld A, [LCD_LINE_Y]
@@ -122,6 +167,10 @@ update_menu::
     ret
 
 load_menu_data::
+    ld HL, FLICKER_TIMER
+    ld [HL], FLICKER_DELAY
+    ld HL, FLICKER_PAL
+    ld [HL], PAL_VISIBLE
     ld HL, LCD_CTRL
     res 1, [HL]
     ld HL, FADE_STEP
@@ -157,75 +206,75 @@ load_menu_data::
 
 .load_menu_tiles:
     ; We just load every line by hand.
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $0)
     ld HL, $9C00
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $1)
     ld HL, $9C20
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $2)
     ld HL, $9C40
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $3)
     ld HL, $9C60
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $4)
     ld HL, $9C80
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $5)
     ld HL, $9CA0
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $6)
     ld HL, $9CC0
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $7)
     ld HL, $9CE0
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $8)
     ld HL, $9D00
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $9)
     ld HL, $9D20
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $A)
     ld HL, $9D40
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $B)
     ld HL, $9D60
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $C)
     ld HL, $9D80
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $D)
     ld HL, $9DA0
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $E)
     ld HL, $9DC0
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $F)
     ld HL, $9DE0
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $10)
     ld HL, $9E00
     call memcpy
-    ld DE, $14
+    ld DE, $15
     ld BC, menu_map_data + ($14 * $11)
     ld HL, $9E20
     call memcpy
@@ -238,3 +287,5 @@ SECTION "menu_var", BSS
 ADDR: DS 2
 FADE_STEP: DS 1
 START_FADE: DS 1
+FLICKER_PAL: DS 1
+FLICKER_TIMER: DS 1

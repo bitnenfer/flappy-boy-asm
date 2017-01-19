@@ -1,50 +1,51 @@
 ROM Bank #0 (HOME):
-  SECTION: $0000-$01B8 ($01B9 bytes)
+  SECTION: $0000-$01BC ($01BD bytes)
            $0156 = main
-           $0189 = start_game
            $0159 = start_menu
-    SLACK: $3E47 bytes
+           $018B = start_game
+    SLACK: $3E43 bytes
 
 ROM Bank #1:
-  SECTION: $6620-$665B ($003C bytes)
-           $6620 = read_joypad
-           $6647 = clear_joypad
-  SECTION: $665C-$667F ($0024 bytes)
-           $666F = clear_bg_map
-           $6662 = lcd_on
-           $665C = lcd_off
-           $6668 = wait_vblank
-  SECTION: $6680-$6690 ($0011 bytes)
-           $6680 = memcpy
-  SECTION: $4000-$57ED ($17EE bytes)
-           $5510 = fade_in
-           $5488 = fade_out
-           $55B2 = apply_parallax
-           $5595 = parallax
-           $55B6 = animate_parallax
+  SECTION: $5B6E-$5BA9 ($003C bytes)
+           $5B6E = read_joypad
+           $5B95 = clear_joypad
+  SECTION: $5BAA-$5BCC ($0023 bytes)
+           $5BBD = clear_bg_map
+           $5BB0 = lcd_on
+           $5BAA = lcd_off
+           $5BB6 = wait_vblank
+  SECTION: $5BCD-$5BDD ($0011 bytes)
+           $5BCD = memcpy
+  SECTION: $4000-$5A7D ($1A7E bytes)
+           $57A0 = fade_in
+           $5718 = fade_out
+           $5842 = apply_parallax
+           $5825 = parallax
+           $5846 = animate_parallax
            $4168 = background_tile_data
-           $52E0 = flappy_sprite_tile_data
-           $563C = load_game_data.load_menu_tiles_0
-           $5715 = load_game_data.load_menu_tiles_1
+           $5570 = flappy_sprite_tile_data
+           $58CC = load_game_data.load_menu_tiles_0
+           $59A5 = load_game_data.load_menu_tiles_1
            $4000 = background_map_data
-           $55E1 = load_game_data
-           $5450 = update_game
-  SECTION: $57EE-$661F ($0E32 bytes)
-           $6456 = update_menu.update_menu_internal
-           $6493 = update_menu.loop_0
-           $5956 = menu_tile_data
-           $6547 = load_menu_data.load_menu_tiles
-           $57EE = menu_map_data
-           $6456 = update_menu
-           $650C = load_menu_data
+           $5871 = load_game_data
+           $56E0 = update_game
+  SECTION: $6900-$7A0D ($110E bytes)
+           $7856 = update_menu.loop
+           $77F8 = update_menu.update_menu_internal
+           $7877 = update_menu.loop_0
+           $6A68 = menu_tile_data
+           $7935 = load_menu_data.load_menu_tiles
+           $6900 = menu_map_data
+           $77F8 = update_menu
+           $78F0 = load_menu_data
   SECTION: $6700-$68FF ($0200 bytes)
            $6700 = SINE_TABLE_0
-  SECTION: $6900-$69EF ($00F0 bytes)
-           $698E = player_update.player_update_apply_vel_y
-           $69C5 = player_set_position
-           $6955 = player_update
-           $6900 = player_sprite_init
-    SLACK: $167F bytes
+  SECTION: $5A7E-$5B6D ($00F0 bytes)
+           $5B0C = player_update.player_update_apply_vel_y
+           $5B43 = player_set_position
+           $5AD3 = player_update
+           $5A7E = player_sprite_init
+    SLACK: $1114 bytes
 
 WRAM Bank #0:
   SECTION: $C000-$C003 ($0004 bytes)
@@ -62,18 +63,20 @@ WRAM Bank #0:
            $C005 = BUILDINGS_X
            $C006 = FLOOR_X
            $C00C = START_PLAY
-  SECTION: $C00D-$C010 ($0004 bytes)
+  SECTION: $C00D-$C012 ($0006 bytes)
            $C010 = START_FADE
+           $C012 = FLICKER_TIMER
+           $C011 = FLICKER_PAL
            $C00D = ADDR
            $C00F = FADE_STEP
-  SECTION: $C011-$C016 ($0006 bytes)
-           $C016 = player_accel_delay
-           $C015 = player_active
-           $C011 = player_x
-           $C012 = player_y
-           $C013 = player_vel_y
-           $C014 = player_bounce
-    SLACK: $0FE9 bytes
+  SECTION: $C013-$C018 ($0006 bytes)
+           $C018 = player_accel_delay
+           $C017 = player_active
+           $C013 = player_x
+           $C014 = player_y
+           $C015 = player_vel_y
+           $C016 = player_bounce
+    SLACK: $0FE7 bytes
 
 WRAM Bank #1:
   EMPTY
