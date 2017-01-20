@@ -2,16 +2,19 @@ SECTION "player", CODE
 
 INCLUDE "gb/constants.inc"
 
-PLAYER_START_X EQU (160 / 2)
+PLAYER_START_X EQU (160 / 2 - 20)
 PLAYER_START_Y EQU (144 / 2 + 16)
 PLAYER_FLOOR_LIMIT EQU (136)
 PLAYER_ACCEL_Y EQU 1
 PLAYER_JUMP EQU $00
 PLAYER_MAX_VEL EQU $04
 PLAYER_DELAY EQU $02
+PLAYER_WAVE_COUNT EQU $08 * 4
 
 player_sprite_init::
     ; Set variables
+    ld HL, player_frame_index
+    ld [HL], $00
     ld HL, player_accel_delay
     ld [HL], PLAYER_DELAY
     ld HL, player_active
@@ -62,7 +65,23 @@ player_sprite_init::
     ret
 
 player_update::
-    
+    ; update animation
+    ld HL, player_frame_index
+    ld A, [HL]
+    ld HL, player_frames
+    ld L, A
+    ld A, [HL] ; Got frame
+    ld HL, $FE0E
+    ld [HL], A
+    ld HL, player_frame_index
+    inc [HL]
+    ld A, [HL]
+    cp 27
+    jr nz, .player_update_continue_00
+    ld [HL], $00
+
+.player_update_continue_00:
+
     ; Check if Button A 
     ; was pressed
     ld HL, IO_P15
@@ -88,7 +107,36 @@ player_update::
     ld HL, player_active
     ld A, [HL]
     cp $00
-    jr z, player_update_end
+    jr nz, .player_update_apply_accel_y
+
+.player_update_init_wave_move:
+    ; Get table pointer
+    ld BC, player_wave_table
+    ld A, C
+    ; Get wave index
+    ld HL, player_wave_index
+    ld C, [HL]
+    ; increment index
+    inc [HL]
+    ; offset address
+    adc A, C
+    ld H, B
+    ld L, C
+    ; store wave value
+    ld A, [HL]
+    ld HL, player_y
+    ld [HL], PLAYER_START_Y
+    ; apply wave offset
+    adc A, [HL]
+    ; store velue
+    ld [HL], A
+    ; check if index is in range
+    ld HL, player_wave_index
+    ld A, [HL]
+    cp PLAYER_WAVE_COUNT
+    jp nz, player_update_end
+    ld [HL], $00
+    jr player_update_end
 
 .player_update_apply_accel_y:
     ld HL, player_accel_delay
@@ -194,4 +242,20 @@ player_vel_y:: DS 1
 player_bounce:: DS 1
 player_active:: DS 1
 player_accel_delay:: DS 1
+player_wave_index:: DS 1
+player_frame_index:: DS 1
 
+SECTION "player_data", DATA[$5C00]
+player_wave_table:
+    DB $00, $00, $00, $00 
+    DB $FF, $FF, $FF, $FF 
+    DB $FE, $FE, $FE, $FE 
+    DB $FF, $FF, $FF, $FF 
+    DB $00, $00, $00, $00 
+    DB $01, $01, $01, $01 
+    DB $02, $02, $02, $02
+    DB $01, $01, $01, $01
+
+SECTION "player_frames", DATA[$5D00]
+player_frames:
+    DB $84, $84, $84, $84, $84, $84, $84, $84, $84, $83, $83, $83, $83, $83, $83, $83, $83, $83, $85, $85, $85, $85, $85, $85, $85, $85, $85

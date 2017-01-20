@@ -18,7 +18,7 @@ INCLUDE "gb/constants.inc"
 
 PARALLAX_DELAY EQU $02
 FADE_FACT EQU 2
-FADE_FACE_OFFSET EQU $10
+FADE_FACE_OFFSET EQU $30
 
 update_game::
     ld HL, READ_INPUT
@@ -27,8 +27,10 @@ update_game::
     jr nz, .continue_update_1
     call read_joypad
 .continue_update_1:
+    call pipes_update
     call player_update
     call player_set_position
+    call pipes_set_position
     ld HL, FADE_IN_ACTIVE
     ld A, [HL]
     cp $00
@@ -52,13 +54,7 @@ update_game::
 .do_parallax:
     ;xor A
     call parallax
-    ; for testing only
 .continue_update_0:
-    ;ld HL, IO_P15
-    ;bit BUTTON_START, [HL]
-    ;jr nz, .end_update
-    ;ld HL, FADE_IN_ACTIVE
-    ;ld [HL], $02
 .end_update:
     ret
 
@@ -293,6 +289,7 @@ load_game_data::
     ld HL, VRAM_TILES_MIX
     call memcpy
     call player_sprite_init
+    call pipes_load_sprites
 
     ; Load tile data
     call .load_menu_tiles_0

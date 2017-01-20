@@ -10,6 +10,7 @@ PAL_VISIBLE EQU %11100100
 PAL_NOT_VISIBLE EQU %00000000
 
 update_menu::
+
 .update_menu_internal:
     ld HL, START_FADE
     ld A, [HL]
@@ -59,7 +60,8 @@ update_menu::
     ld HL, LCD_BG_PAL
     ld [HL], %11100100
 
-    jp .update_menu_internal
+    ret
+    ;jp .update_menu_internal
 
     ;11100100
 
