@@ -1,5 +1,7 @@
 SECTION "pipes_vars", BSS
 pipes_x:: DS 1
+pipes_top_height:: DS 1
+pipes_bottom_height:: DS 1
 
 SECTION "pipes", CODE
 
@@ -7,7 +9,6 @@ PIPES_START_X EQU (168)
 PIPES_START_TOP_Y EQU (16)
 PIPES_START_BOTTOM_Y EQU (144)
 INCLUDE "gb/constants.inc"
-
 
 pipes_load_sprites::
     ld HL, pipes_x
@@ -202,6 +203,11 @@ pipes_set_position::
     ret
 
 pipes_init_1x8:
+    ld HL, pipes_top_height
+    ld [HL], 2 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 9 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)
@@ -265,6 +271,11 @@ pipes_init_1x8:
     jp pipes_gen_pipes_end
 
 pipes_init_2x7:
+    ld HL, pipes_top_height
+    ld [HL], 3 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 8 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)
@@ -327,6 +338,11 @@ pipes_init_2x7:
     jp pipes_gen_pipes_end
 
 pipes_init_3x6:
+    ld HL, pipes_top_height
+    ld [HL], 4 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 7 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)
@@ -389,6 +405,11 @@ pipes_init_3x6:
     jp pipes_gen_pipes_end
 
 pipes_init_4x5:
+    ld HL, pipes_top_height
+    ld [HL], 5 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 6 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)
@@ -451,6 +472,11 @@ pipes_init_4x5:
     jp pipes_gen_pipes_end
 
 pipes_init_5x4:
+    ld HL, pipes_top_height
+    ld [HL], 6 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 5 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)
@@ -513,6 +539,11 @@ pipes_init_5x4:
     jp pipes_gen_pipes_end
 
 pipes_init_6x3:
+    ld HL, pipes_top_height
+    ld [HL], 7 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 4 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)
@@ -575,6 +606,11 @@ pipes_init_6x3:
     jp pipes_gen_pipes_end
 
 pipes_init_7x2:
+    ld HL, pipes_top_height
+    ld [HL], 8 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 3 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)
@@ -637,6 +673,11 @@ pipes_init_7x2:
     jp pipes_gen_pipes_end
 
 pipes_init_8x1:
+    ld HL, pipes_top_height
+    ld [HL], 9 * 8 - 6
+    ld HL, pipes_bottom_height
+    ld [HL], 2 * 8 - 0
+
     ; Top
     ld HL, $FE20
     ld [HL], PIPES_START_TOP_Y + (8 * 0)

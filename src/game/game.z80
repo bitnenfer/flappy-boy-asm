@@ -81,11 +81,15 @@ fade_out::
     ld [HL], %11100100
     ld HL, OBJ0_PAL
     ld [HL], %11100100
+    ld HL, OBJ1_PAL
+    ld [HL], %11010000
     jr .end_fade
 .fade_1:
     ld HL, LCD_BG_PAL
     ld [HL], %11111001
     ld HL, OBJ0_PAL
+    ld [HL], %11111001
+    ld HL, OBJ1_PAL
     ld [HL], %11111001
     jr .end_fade
 .fade_2:
@@ -93,23 +97,31 @@ fade_out::
     ld [HL], %11111001
     ld HL, OBJ0_PAL
     ld [HL], %11111001
-    jr .end_fade
+     ld HL, OBJ1_PAL
+    ld [HL], %11111001
+   jr .end_fade
 .fade_3:
     ld HL, LCD_BG_PAL
     ld [HL], %11111110
     ld HL, OBJ0_PAL
     ld [HL], %11111110
-    jr .end_fade
+    ld HL, OBJ1_PAL
+    ld [HL], %11111110
+   jr .end_fade
 .fade_4:
     ld HL, LCD_BG_PAL
     ld [HL], %11111110
     ld HL, OBJ0_PAL
+    ld [HL], %11111110
+    ld HL, OBJ1_PAL
     ld [HL], %11111110
     jr .end_fade
 .fade_5:
     ld HL, LCD_BG_PAL
     ld [HL], %11111111
     ld HL, OBJ0_PAL
+    ld [HL], %11111111
+    ld HL, OBJ1_PAL
     ld [HL], %11111111
     jr .end_fade
 .end_fade:
@@ -125,6 +137,8 @@ fade_out::
     ld [HL], %11100100
     ld HL, OBJ0_PAL
     ld [HL], %11100100
+    ld HL, OBJ1_PAL
+    ld [HL], %11100000
     jp start_menu
 .end_0:
     ret
@@ -152,11 +166,15 @@ fade_in::
     ld [HL], %11111111
     ld HL, OBJ0_PAL
     ld [HL], %11111111
+    ld HL, OBJ1_PAL
+    ld [HL], %11111111
     jr .end_fade
 .fade_1:
     ld HL, LCD_BG_PAL
     ld [HL], %11111110
     ld HL, OBJ0_PAL
+    ld [HL], %11111110
+    ld HL, OBJ1_PAL
     ld [HL], %11111110
     jr .end_fade
 .fade_2:
@@ -164,11 +182,15 @@ fade_in::
     ld [HL], %11111110
     ld HL, OBJ0_PAL
     ld [HL], %11111110
+    ld HL, OBJ1_PAL
+    ld [HL], %11111110
     jr .end_fade
 .fade_3:
     ld HL, LCD_BG_PAL
     ld [HL], %11111001
     ld HL, OBJ0_PAL
+    ld [HL], %11111001
+    ld HL, OBJ1_PAL
     ld [HL], %11111001
     jr .end_fade
 .fade_4:
@@ -176,12 +198,16 @@ fade_in::
     ld [HL], %11111001
     ld HL, OBJ0_PAL
     ld [HL], %11111001
+    ld HL, OBJ1_PAL
+    ld [HL], %11111001
     jr .end_fade
 .fade_5:
     ld HL, LCD_BG_PAL
     ld [HL], %11100100
     ld HL, OBJ0_PAL
     ld [HL], %11100100
+    ld HL, OBJ1_PAL
+    ld [HL], %11010000
     jr .end_fade
 .end_fade:
     ld HL, FADE_STEP
@@ -196,6 +222,8 @@ fade_in::
     ld [HL], %11100100
     ld HL, OBJ0_PAL
     ld [HL], %11100100
+    ld HL, OBJ1_PAL
+    ld [HL], %11010000
 .end_0:
     ret
 

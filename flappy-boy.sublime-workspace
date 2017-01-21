@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"player_upda",
+				"player_update_continue_00"
+			],
+			[
+				"player_inde",
+				"player_frame_index"
+			],
+			[
+				"PIPE",
+				"PIPE_TABLE"
+			],
+			[
+				"PIP",
+				"PIPES_START_X"
+			],
+			[
+				"pip",
+				"pipes"
+			],
+			[
 				"player_wa",
 				"player_wave_table"
 			],
@@ -494,26 +514,6 @@
 			[
 				"trhe",
 				"thread_id"
-			],
-			[
-				"Upda",
-				"UpdateFrameData"
-			],
-			[
-				"grp",
-				"graph_zoom"
-			],
-			[
-				"thread",
-				"thread_index"
-			],
-			[
-				"grap",
-				"graph_zoom"
-			],
-			[
-				"Up",
-				"UpdateFrameData"
 			]
 		]
 	},
@@ -533,6 +533,15 @@
 			"settings":
 			{
 				"buffer_size": 648,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "include/gb/header.inc",
+			"settings":
+			{
+				"buffer_size": 938,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -566,7 +575,7 @@
 			"file": "src/game/game.z80",
 			"settings":
 			{
-				"buffer_size": 9230,
+				"buffer_size": 9169,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -575,7 +584,7 @@
 			"file": "src/game/player.z80",
 			"settings":
 			{
-				"buffer_size": 4667,
+				"buffer_size": 5256,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -584,7 +593,7 @@
 			"file": "src/game/pipes.z80",
 			"settings":
 			{
-				"buffer_size": 91,
+				"buffer_size": 14881,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -602,9 +611,18 @@
 			"file": "src/game/menu.z80",
 			"settings":
 			{
-				"buffer_size": 7324,
+				"buffer_size": 7334,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "var d = [];\nfor (var i = 0; i < 0xFF; ++i)\n{\n    d.push(i % 8);\n}\nconsole.log(d.toString(16));",
+			"settings":
+			{
+				"buffer_size": 94,
+				"line_ending": "Windows",
+				"name": "var d = [];"
 			}
 		}
 	],
@@ -715,6 +733,10 @@
 	],
 	"file_history":
 	[
+		"/C/dev/gameboy/flappy-boy/src/game/creds.z80",
+		"/C/dev/gameboy/flappy-boy/include/assets/creds_map.inc",
+		"/C/dev/gameboy/flappy-boy/include/assets/game_map.inc",
+		"/C/dev/gameboy/flappy-boy/Makefile",
 		"/C/dev/gameboy/flappy-boy/src/core/rand.z80",
 		"/C/dev/FlappyBoy/Makefile",
 		"/C/dev/gameboy/flappy-boy/include/assets/menu_map.inc",
@@ -724,10 +746,8 @@
 		"/C/dev/gameboy/flappy-boy/src/game/menu.z80",
 		"/C/dev/pngb/src/pngb.c",
 		"/C/dev/gameboy/flappy-boy/src/main.z80",
-		"/C/dev/gameboy/flappy-boy/include/assets/game_map.inc",
 		"/C/dev/gameboy/flappy-boy/include/gb/macros.inc",
 		"/C/dev/gameboy/flappy-boy/src/core/lcd.z80",
-		"/C/dev/gameboy/flappy-boy/Makefile",
 		"/C/dev/gameboy/flappy-boy/include/gb/constants.inc",
 		"/C/dev/gameboy/flappy-boy/src/core/joypad.z80",
 		"/C/dev/gameboy/flappy-boy/include/gb/registers.inc",
@@ -840,13 +860,11 @@
 		"/C/xampp/htdocs/grumpycat/js/entities/minigames/tennis/paddlecpu.js",
 		"/C/xampp/htdocs/grumpycat/js/entities/minigames/tennis/paddleplayer.js",
 		"/C/xampp/htdocs/grumpycat/js/entities/minigames/rugby/field.js",
-		"/C/xampp/htdocs/grumpycat/assets/minigames/json/tennis.json",
-		"/C/xampp/htdocs/grumpycat/js/entities/minigames/tennis/startloseanimation.js",
-		"/C/xampp/htdocs/grumpycat/js/entities/minigames/tennis/startwinanimation.js"
+		"/C/xampp/htdocs/grumpycat/assets/minigames/json/tennis.json"
 	],
 	"find":
 	{
-		"height": 36.0
+		"height": 48.0
 	},
 	"find_in_files":
 	{
@@ -863,6 +881,11 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"843198",
+			"FE0D",
+			"jp pipes_gen_pipes",
+			"ret pipes_gen_pipes",
+			"PIPES_START_Y",
 			"initMath",
 			"FLICKER_DEFAULT",
 			"_updateFlappySprite",
@@ -985,12 +1008,7 @@
 			"AND",
 			"//",
 			"U32",
-			"events",
-			"foodOrder",
-			";\n",
-			"selectBoard",
-			"event",
-			"console"
+			"events"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -998,6 +1016,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"creds",
+			"jp pipes_gen_pipes_end",
+			"ret pipes_gen_pipes_end",
+			"PIPES_START_TOP_Y",
 			"PAL_VISIBLE",
 			"",
 			"PARALLAX_DELAY_TIMER",
@@ -1133,8 +1155,8 @@
 						"selection":
 						[
 							[
-								259,
-								269
+								148,
+								158
 							]
 						],
 						"settings":
@@ -1145,7 +1167,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1161,8 +1183,8 @@
 						"selection":
 						[
 							[
-								142,
-								135
+								325,
+								325
 							]
 						],
 						"settings":
@@ -1172,14 +1194,42 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 171.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "include/gb/header.inc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 938,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								707,
+								706
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "src/core/lcd.z80",
 					"semi_transient": false,
 					"settings":
@@ -1205,11 +1255,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "/C/dev/FlappyBoy/main.asm",
 					"semi_transient": false,
 					"settings":
@@ -1234,11 +1284,11 @@
 						"translation.y": 8937.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "/C/dev/FlappyBoy/utils.asm",
 					"semi_transient": false,
 					"settings":
@@ -1263,30 +1313,30 @@
 						"translation.y": 5802.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "src/game/game.z80",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9230,
+						"buffer_size": 9169,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								517,
-								517
+								5585,
+								5603
 							]
 						],
 						"settings":
@@ -1296,55 +1346,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4560.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "src/game/player.z80",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4667,
+						"buffer_size": 5256,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4478,
-								4478
-							],
-							[
-								4505,
-								4505
-							],
-							[
-								4532,
-								4532
-							],
-							[
-								4559,
-								4559
-							],
-							[
-								4586,
-								4586
-							],
-							[
-								4613,
-								4613
-							],
-							[
-								4640,
-								4640
-							],
-							[
-								4666,
-								4666
+								1077,
+								1077
 							]
 						],
 						"settings":
@@ -1354,27 +1376,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3296.0,
+						"translation.y": 874.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "src/game/pipes.z80",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 91,
+						"buffer_size": 14881,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								64,
-								64
+								1461,
+								1461
 							]
 						],
 						"settings":
@@ -1382,14 +1404,14 @@
 							"syntax": "Packages/Z80 Assembly/z80.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 456.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"file": "src/core/joypad.z80",
 					"semi_transient": false,
 					"settings":
@@ -1415,24 +1437,24 @@
 						"translation.y": 171.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "src/game/menu.z80",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7324,
+						"buffer_size": 7334,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4722,
-								4722
+								3248,
+								3806
 							]
 						],
 						"settings":
@@ -1442,10 +1464,38 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2964.0,
+						"translation.y": 3477.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 94,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								94
+							]
+						],
+						"settings":
+						{
+							"auto_name": "var d = [];",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1479,7 +1529,7 @@
 		"cols":
 		[
 			0.0,
-			0.439135156202,
+			0.521007723644,
 			1.0
 		],
 		"rows":
@@ -1491,7 +1541,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 233.0
+		"height": 162.0
 	},
 	"output.find_results":
 	{
@@ -1539,7 +1589,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 259.0,
+	"side_bar_width": 356.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

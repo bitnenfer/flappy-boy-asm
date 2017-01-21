@@ -13,7 +13,7 @@ main::
     jp start_menu
 
 start_menu::
-    ld B, $06 ; clear tile id
+    ld B, $16 ; clear tile id
     _RESET_
     call clear_joypad
     call wait_vblank

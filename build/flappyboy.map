@@ -6,67 +6,67 @@ ROM Bank #0 (HOME):
     SLACK: $3E43 bytes
 
 ROM Bank #1:
-  SECTION: $5BB5-$5BF0 ($003C bytes)
-           $5BB5 = read_joypad
-           $5BDC = clear_joypad
-  SECTION: $5C20-$5C42 ($0023 bytes)
-           $5C33 = clear_bg_map
-           $5C26 = lcd_on
-           $5C20 = lcd_off
-           $5C2C = wait_vblank
-  SECTION: $5C43-$5C53 ($0011 bytes)
-           $5C43 = memcpy
-  SECTION: $4000-$5A86 ($1A87 bytes)
-           $57A6 = fade_in
-           $571E = fade_out
-           $5848 = apply_parallax
-           $582B = parallax
-           $584C = animate_parallax
+  SECTION: $5A5F-$5A9A ($003C bytes)
+           $5A5F = read_joypad
+           $5A86 = clear_joypad
+  SECTION: $5A9B-$5ABD ($0023 bytes)
+           $5AAE = clear_bg_map
+           $5AA1 = lcd_on
+           $5A9B = lcd_off
+           $5AA7 = wait_vblank
+  SECTION: $5ABE-$5ACE ($0011 bytes)
+           $5ABE = memcpy
+  SECTION: $4000-$586C ($186D bytes)
+           $5569 = fade_in
+           $54BE = fade_out
+           $562E = apply_parallax
+           $5611 = parallax
+           $5632 = animate_parallax
            $4168 = background_tile_data
-           $5570 = flappy_sprite_tile_data
-           $58D5 = load_game_data.load_menu_tiles_0
-           $59AE = load_game_data.load_menu_tiles_1
+           $5310 = flappy_sprite_tile_data
+           $56BB = load_game_data.load_menu_tiles_0
+           $5794 = load_game_data.load_menu_tiles_1
            $4000 = background_map_data
-           $5877 = load_game_data
-           $56E0 = update_game
-  SECTION: $6900-$7A0B ($110C bytes)
-           $7854 = update_menu.loop
-           $77F8 = update_menu.update_menu_internal
-           $7875 = update_menu.loop_0
+           $565D = load_game_data
+           $5480 = update_game
+  SECTION: $6900-$77AB ($0EAC bytes)
+           $75F4 = update_menu.loop
+           $7598 = update_menu.update_menu_internal
+           $7615 = update_menu.loop_0
            $6A68 = menu_tile_data
-           $7933 = load_menu_data.load_menu_tiles
+           $76D3 = load_menu_data.load_menu_tiles
            $6900 = menu_map_data
-           $77F8 = update_menu
-           $78EE = load_menu_data
+           $7598 = update_menu
+           $768E = load_menu_data
   SECTION: $6700-$68FF ($0200 bytes)
            $6700 = SINE_TABLE_0
-  SECTION: $616F-$6628 ($04BA bytes)
+  SECTION: $616F-$6678 ($050A bytes)
            $61E6 = pipes_gen_pipes
            $62A1 = pipes_init_1x8
-           $6312 = pipes_init_2x7
-           $6383 = pipes_init_3x6
-           $63F4 = pipes_init_4x5
-           $6465 = pipes_init_5x4
-           $64D6 = pipes_init_6x3
-           $6547 = pipes_init_7x2
-           $65B8 = pipes_init_8x1
+           $631C = pipes_init_2x7
+           $6397 = pipes_init_3x6
+           $6412 = pipes_init_4x5
+           $648D = pipes_init_5x4
+           $6508 = pipes_init_6x3
+           $6583 = pipes_init_7x2
+           $65FE = pipes_init_8x1
            $621A = pipes_gen_pipes_end
            $6220 = pipes_update
            $616F = pipes_load_sprites
            $6241 = pipes_set_position
   SECTION: $6070-$616E ($00FF bytes)
            $6070 = PIPE_TABLE
-  SECTION: $5A87-$5BB4 ($012E bytes)
-           $5B89 = player_update_end
-           $5B53 = player_update.player_update_apply_vel_y
-           $5B8A = player_set_position
-           $5AE1 = player_update
-           $5A87 = player_sprite_init
+  SECTION: $586D-$5A5E ($01F2 bytes)
+           $5A33 = player_update_end
+           $5965 = player_update.player_update_apply_vel_y
+           $5A34 = player_set_position
+           $58E2 = player_update
+           $586D = player_sprite_init
   SECTION: $5C00-$5C1F ($0020 bytes)
            $5C00 = player_wave_table
   SECTION: $5D00-$5D1A ($001B bytes)
            $5D00 = player_frames
-    SLACK: $0ADB bytes
+    SLACK: $0E41 bytes
 
 WRAM Bank #0:
   SECTION: $C000-$C003 ($0004 bytes)
@@ -90,18 +90,22 @@ WRAM Bank #0:
            $C011 = FLICKER_PAL
            $C00D = ADDR
            $C00F = FADE_STEP
-  SECTION: $C013-$C013 ($0001 bytes)
+  SECTION: $C013-$C015 ($0003 bytes)
            $C013 = pipes_x
-  SECTION: $C014-$C01B ($0008 bytes)
-           $C01B = player_frame_index
-           $C019 = player_accel_delay
-           $C018 = player_active
-           $C014 = player_x
-           $C015 = player_y
-           $C016 = player_vel_y
-           $C017 = player_bounce
-           $C01A = player_wave_index
-    SLACK: $0FE4 bytes
+           $C014 = pipes_top_height
+           $C015 = pipes_bottom_height
+  SECTION: $C016-$C01F ($000A bytes)
+           $C019 = player_vel_x
+           $C01F = player_dead
+           $C01E = player_frame_index
+           $C01C = player_accel_delay
+           $C01B = player_active
+           $C016 = player_x
+           $C017 = player_y
+           $C018 = player_vel_y
+           $C01A = player_bounce
+           $C01D = player_wave_index
+    SLACK: $0FE0 bytes
 
 WRAM Bank #1:
   EMPTY

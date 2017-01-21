@@ -46,7 +46,7 @@ update_menu::
 .flicker_instr_0:
 
     ld A, [LCD_LINE_Y]
-    cp 115
+    cp 132
     jr nz, .flicker_instr_0
     ld HL, FLICKER_PAL
     ld A, [HL]
@@ -55,7 +55,7 @@ update_menu::
 
 .flicker_instr_1:
     ld A, [LCD_LINE_Y]
-    cp 129
+    cp 142
     jr nz, .flicker_instr_1
     ld HL, LCD_BG_PAL
     ld [HL], %11100100
