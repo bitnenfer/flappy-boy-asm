@@ -1,35 +1,36 @@
 ROM Bank #0 (HOME):
-  SECTION: $0000-$01BC ($01BD bytes)
+  SECTION: $0000-$01BC ($01BD bytes) ["rom"]
            $0156 = main
            $0159 = start_menu
            $018B = start_game
     SLACK: $3E43 bytes
 
 ROM Bank #1:
-  SECTION: $5A5F-$5A9A ($003C bytes)
-           $5A5F = read_joypad
-           $5A86 = clear_joypad
-  SECTION: $5A9B-$5ABD ($0023 bytes)
-           $5AAE = clear_bg_map
-           $5AA1 = lcd_on
-           $5A9B = lcd_off
-           $5AA7 = wait_vblank
-  SECTION: $5ABE-$5ACE ($0011 bytes)
-           $5ABE = memcpy
-  SECTION: $4000-$586C ($186D bytes)
-           $5569 = fade_in
+  SECTION: $59DC-$5A17 ($003C bytes) ["joypad"]
+           $59DC = read_joypad
+           $5A03 = clear_joypad
+  SECTION: $5A18-$5A3A ($0023 bytes) ["lcd"]
+           $5A2B = clear_bg_map
+           $5A1E = lcd_on
+           $5A18 = lcd_off
+           $5A24 = wait_vblank
+  SECTION: $5A3B-$5A4A ($0010 bytes) ["memory"]
+           $5A3B = memcpy
+  SECTION: $4000-$57E9 ($17EA bytes) ["game"]
+           $552E = fade_in
            $54BE = fade_out
-           $562E = apply_parallax
-           $5611 = parallax
-           $5632 = animate_parallax
+           $55AB = apply_parallax
+           $558E = parallax
+           $5521 = fade_common
+           $55AF = animate_parallax
            $4168 = background_tile_data
            $5310 = flappy_sprite_tile_data
-           $56BB = load_game_data.load_menu_tiles_0
-           $5794 = load_game_data.load_menu_tiles_1
+           $5638 = load_game_data.load_menu_tiles_0
+           $5711 = load_game_data.load_menu_tiles_1
            $4000 = background_map_data
-           $565D = load_game_data
+           $55DA = load_game_data
            $5480 = update_game
-  SECTION: $6900-$77AB ($0EAC bytes)
+  SECTION: $6900-$77AB ($0EAC bytes) ["menu"]
            $75F4 = update_menu.loop
            $7598 = update_menu.update_menu_internal
            $7615 = update_menu.loop_0
@@ -38,9 +39,9 @@ ROM Bank #1:
            $6900 = menu_map_data
            $7598 = update_menu
            $768E = load_menu_data
-  SECTION: $6700-$68FF ($0200 bytes)
+  SECTION: $6700-$68FF ($0200 bytes) ["menu_data"]
            $6700 = SINE_TABLE_0
-  SECTION: $616F-$6678 ($050A bytes)
+  SECTION: $616F-$6678 ($050A bytes) ["pipes"]
            $61E6 = pipes_gen_pipes
            $62A1 = pipes_init_1x8
            $631C = pipes_init_2x7
@@ -54,57 +55,57 @@ ROM Bank #1:
            $6220 = pipes_update
            $616F = pipes_load_sprites
            $6241 = pipes_set_position
-  SECTION: $6070-$616E ($00FF bytes)
+  SECTION: $6070-$616E ($00FF bytes) ["pipes_rand_table"]
            $6070 = PIPE_TABLE
-  SECTION: $586D-$5A5E ($01F2 bytes)
-           $5A33 = player_update_end
-           $5965 = player_update.player_update_apply_vel_y
-           $5A34 = player_set_position
-           $58E2 = player_update
-           $586D = player_sprite_init
-  SECTION: $5C00-$5C1F ($0020 bytes)
+  SECTION: $57EA-$59DB ($01F2 bytes) ["player"]
+           $59B0 = player_update_end
+           $58E2 = player_update.player_update_apply_vel_y
+           $59B1 = player_set_position
+           $585F = player_update
+           $57EA = player_sprite_init
+  SECTION: $5C00-$5C1F ($0020 bytes) ["player_data"]
            $5C00 = player_wave_table
-  SECTION: $5D00-$5D1A ($001B bytes)
+  SECTION: $5D00-$5D1A ($001B bytes) ["player_frames"]
            $5D00 = player_frames
-    SLACK: $0E41 bytes
+    SLACK: $0EC5 bytes
 
 WRAM Bank #0:
-  SECTION: $C000-$C003 ($0004 bytes)
-           $C000 = IO_P14
-           $C002 = IO_P14_OLD
-           $C001 = IO_P15
-           $C003 = IO_P15_OLD
-  SECTION: $C004-$C00C ($0009 bytes)
-           $C00B = READ_INPUT
-           $C008 = FADE_IN_ACTIVE
-           $C00A = ALLOW_PARALLAX
-           $C009 = FADE_STEP
-           $C007 = PARALLAX_DELAY_TIMER
-           $C004 = CLOUDS_X
-           $C005 = BUILDINGS_X
-           $C006 = FLOOR_X
-           $C00C = START_PLAY
-  SECTION: $C00D-$C012 ($0006 bytes)
-           $C010 = START_FADE
-           $C012 = FLICKER_TIMER
-           $C011 = FLICKER_PAL
-           $C00D = ADDR
+  SECTION: $C019-$C01C ($0004 bytes) ["joypad_vars"]
+           $C019 = IO_P14
+           $C01B = IO_P14_OLD
+           $C01A = IO_P15
+           $C01C = IO_P15_OLD
+  SECTION: $C00A-$C012 ($0009 bytes) ["game_vars"]
+           $C011 = READ_INPUT
+           $C00E = FADE_IN_ACTIVE
+           $C010 = ALLOW_PARALLAX
            $C00F = FADE_STEP
-  SECTION: $C013-$C015 ($0003 bytes)
-           $C013 = pipes_x
-           $C014 = pipes_top_height
-           $C015 = pipes_bottom_height
-  SECTION: $C016-$C01F ($000A bytes)
-           $C019 = player_vel_x
-           $C01F = player_dead
-           $C01E = player_frame_index
-           $C01C = player_accel_delay
-           $C01B = player_active
-           $C016 = player_x
-           $C017 = player_y
-           $C018 = player_vel_y
-           $C01A = player_bounce
-           $C01D = player_wave_index
+           $C00D = PARALLAX_DELAY_TIMER
+           $C00A = CLOUDS_X
+           $C00B = BUILDINGS_X
+           $C00C = FLOOR_X
+           $C012 = START_PLAY
+  SECTION: $C013-$C018 ($0006 bytes) ["menu_var"]
+           $C016 = START_FADE
+           $C018 = FLICKER_TIMER
+           $C017 = FLICKER_PAL
+           $C013 = ADDR
+           $C015 = FADE_STEP
+  SECTION: $C01D-$C01F ($0003 bytes) ["pipes_vars"]
+           $C01D = pipes_x
+           $C01E = pipes_top_height
+           $C01F = pipes_bottom_height
+  SECTION: $C000-$C009 ($000A bytes) ["player_vars"]
+           $C003 = player_vel_x
+           $C009 = player_dead
+           $C008 = player_frame_index
+           $C006 = player_accel_delay
+           $C005 = player_active
+           $C000 = player_x
+           $C001 = player_y
+           $C002 = player_vel_y
+           $C004 = player_bounce
+           $C007 = player_wave_index
     SLACK: $0FE0 bytes
 
 WRAM Bank #1:
@@ -134,6 +135,9 @@ VRAM Bank #0:
 VRAM Bank #1:
   EMPTY
 
+OAM:
+  EMPTY
+
 HRAM:
   EMPTY
 
@@ -147,5 +151,41 @@ SRAM Bank #2:
   EMPTY
 
 SRAM Bank #3:
+  EMPTY
+
+SRAM Bank #4:
+  EMPTY
+
+SRAM Bank #5:
+  EMPTY
+
+SRAM Bank #6:
+  EMPTY
+
+SRAM Bank #7:
+  EMPTY
+
+SRAM Bank #8:
+  EMPTY
+
+SRAM Bank #9:
+  EMPTY
+
+SRAM Bank #10:
+  EMPTY
+
+SRAM Bank #11:
+  EMPTY
+
+SRAM Bank #12:
+  EMPTY
+
+SRAM Bank #13:
+  EMPTY
+
+SRAM Bank #14:
+  EMPTY
+
+SRAM Bank #15:
   EMPTY
 

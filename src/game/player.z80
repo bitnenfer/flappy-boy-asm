@@ -1,4 +1,4 @@
-SECTION "player", CODE
+SECTION "player", ROMX
 
 INCLUDE "gb/constants.inc"
 
@@ -334,7 +334,7 @@ player_set_position::
     
     ret
 
-SECTION "player_vars", BSS
+SECTION "player_vars", WRAM0
 player_x:: DS 1
 player_y:: DS 1
 player_vel_y:: DS 1
@@ -347,7 +347,7 @@ player_frame_index:: DS 1
 player_dead:: DS 1
 
 
-SECTION "player_data", DATA[$5C00]
+SECTION "player_data", ROMX[$5C00]
 player_wave_table:
     DB $00, $00, $00, $00 
     DB $FF, $FF, $FF, $FF 
@@ -358,6 +358,6 @@ player_wave_table:
     DB $02, $02, $02, $02
     DB $01, $01, $01, $01
 
-SECTION "player_frames", DATA[$5D00]
+SECTION "player_frames", ROMX[$5D00]
 player_frames:
     DB $84, $84, $84, $84, $84, $84, $84, $84, $84, $83, $83, $83, $83, $83, $83, $83, $83, $83, $85, $85, $85, $85, $85, $85, $85, $85, $85

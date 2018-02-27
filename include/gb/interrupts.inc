@@ -1,4 +1,4 @@
-SECTION "rom", HOME
+SECTION "rom", ROM0
 
 ; Interrupt handlers
 ; $0000

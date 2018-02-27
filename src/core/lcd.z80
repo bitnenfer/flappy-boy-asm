@@ -1,4 +1,4 @@
-SECTION "lcd", CODE
+SECTION "lcd", ROMX
 
 INCLUDE "gb/constants.inc"
 
