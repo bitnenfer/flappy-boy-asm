@@ -1,4 +1,4 @@
-SECTION "game_vars", BSS
+SECTION "game_vars", WRAM0
 CLOUDS_X: DS 1
 BUILDINGS_X: DS 1
 FLOOR_X: DS 1
@@ -9,7 +9,7 @@ ALLOW_PARALLAX:: DS 1
 READ_INPUT:: DS 1
 START_PLAY:: DS 1
 
-SECTION "game", CODE
+SECTION "game", ROMX
 
 INCLUDE "assets/game_map.inc"
 INCLUDE "assets/menu_map.inc"

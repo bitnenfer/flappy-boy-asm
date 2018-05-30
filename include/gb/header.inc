@@ -1,4 +1,4 @@
-SECTION "rom", HOME
+SECTION "rom", ROM0
 
 ; HEADER
 ; $0104 - $0133: The Nintendo Logo.

@@ -1,4 +1,4 @@
-SECTION "memory", CODE
+SECTION "memory", ROMX
 ; memcpy implementation for Z80
 memcpy::
     ; DE = block size
@@ -8,9 +8,8 @@ memcpy::
 
 .memcpy_loop:
     ld A, [BC]
-    ld [HL], A
+    ld [HLI], A
     inc BC
-    inc HL
     dec DE
 
 .memcpy_check_limit:

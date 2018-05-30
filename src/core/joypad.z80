@@ -1,4 +1,4 @@
-SECTION "joypad", CODE
+SECTION "joypad", ROMX
 
 INCLUDE "gb/constants.inc"
 
@@ -42,7 +42,7 @@ clear_joypad::
     ld [HL], NO_INPUT_P15
     ret
 
-SECTION "joypad_vars", BSS
+SECTION "joypad_vars", WRAM0
 IO_P14:: DS 1
 IO_P15:: DS 1
 IO_P14_OLD:: DS 1

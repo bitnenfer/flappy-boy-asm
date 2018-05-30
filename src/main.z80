@@ -1,4 +1,4 @@
-SECTION "rom", HOME
+SECTION "rom", ROM0
 
 INCLUDE "gb/interrupts.inc"
 INCLUDE "gb/constants.inc"
