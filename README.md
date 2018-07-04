@@ -3,6 +3,9 @@
 FlappyBoy
 ========= 
 
+UPDATE: I've made this branch which is a port using the `Intelligent Systems` toolchain. This allows for debugging and testing using the IS-CGB-DEBUGGER tool.
+For building this branch you'll need access to IS toolchain.
+
 This is clone of Flappy Bird I made to learn about the Game Boy and how to build a really simple game for it.
 
 The tools I used are:
