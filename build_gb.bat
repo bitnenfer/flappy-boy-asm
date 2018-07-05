@@ -4,13 +4,14 @@ cls
 
 setlocal EnableDelayedExpansion
 
-set PATH=%PATH%;"C:\dev\INTELLIGENT SYSTEMS\CGB-SDK"
+rem set PATH=%PATH%;"C:\dev\INTELLIGENT SYSTEMS\CGB-SDK"
+set PATH=%PATH%;"C:\Archivos de programa\INTELLIGENT SYSTEMS\CGB-SDK"
 
 set OUTPUT=flappyboy
 set ISAS=isas32
 set ISLK=islk32
-set CVTISX=abisx
-set GBFIX=rgbfix
+set CVTISX=C:\dev\tools\abisx.exe
+set GBFIX=C:\dev\tools\rgbfix.exe
 set PROJPATH="C:\dev\gameboy\flappy-boy-asm"
 set CODEPATH=src
 set OBJPATH=build

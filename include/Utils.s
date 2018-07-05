@@ -45,3 +45,15 @@ _MemSetLoop:
 	ld l,e
 	ld (hl),b
 	ret
+
+Sleep:
+	; HL counter
+_Repeat:
+	dec hl
+	ld a,l
+	cp $00
+	jr nz, _Repeat
+	ld a,h
+	cp $00
+	jr nz, _Repeat
+	ret
