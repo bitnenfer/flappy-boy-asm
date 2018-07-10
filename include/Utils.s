@@ -1,4 +1,26 @@
 ; Utility Functions
+WaitLYC:
+	; A = Line To Wait
+	ld (LYC),a
+_Wait:
+	ld a,(LCDS)
+	bit $02,a
+	jr z,_Wait
+	ret
+
+LoadMapRow:
+	; BC = Source
+	; HL = Dest
+	; D = Row Stride
+_Loop:
+	ld a,(bc)
+	ld (hl),a
+	inc bc
+	inc hl
+	dec d
+	jr nz,_Loop
+	ret
+
 WaitVBlank:
 	ld hl,LYC
 	ld (hl),$90
@@ -27,7 +49,7 @@ _MemCpyChkLimit:
 	cp $00
 	jr nz,_MemCpyLoop
 	ret
-	
+
 MemSet:
 	; HL = Start
 	; DE = End
