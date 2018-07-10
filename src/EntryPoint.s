@@ -3,7 +3,7 @@
 	isdmg
 	offbankgroup
 	puball
-	
+
 title 	group 	$00
 	; Interrupts and Catridge Header
 	org $0000
